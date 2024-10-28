@@ -3,50 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Signals Dashboard</title>
+    <title>Signal Status</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2; /* Light gray background */
         }
         .signal {
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .hold {
-            background-color: red;
-            color: white;
-        }
-        .place-bet {
-            background-color: green;
-            color: white;
+            font-size: 3em; /* Larger text size */
+            color: red; /* Red color for "Hold" */
+            font-weight: bold; /* Bold text */
         }
     </style>
 </head>
 <body>
-    <h1>Live Signals Dashboard</h1>
-    
-    <div id="signals-container"></div>
-    
-    <script>
-        async function fetchSignals() {
-            const response = await fetch('https://your-api-url.com/signals'); // Replace with your actual API endpoint
-            const data = await response.json();
-            
-            const signalsContainer = document.getElementById('signals-container');
-            signalsContainer.innerHTML = ''; // Clear previous signals
+    <div class="signal">Hold</div>
+</body>
+</html>
 
-            data.forEach(signal => {
-                const signalDiv = document.createElement('div');
-                signalDiv.className = 'signal ' + (signal.type === 'hold' ? 'hold' : 'place-bet');
-                signalDiv.innerHTML = `<h2>Signal: ${signal.type}</h2><p>${signal.details}</p>`;
-                signalsContainer.appendChild(signalDiv);
-            });
-        }
-
-        fetchSignals();
         setInterval(fetchSignals, 30000); // Refresh signals every 30 seconds
     </script>
 </body>
