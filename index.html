@@ -7,6 +7,7 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -15,17 +16,45 @@
         }
         .signal {
             font-size: 3em; /* Larger text size */
-            color: red; /* Red color for "Hold" */
             font-weight: bold; /* Bold text */
+            margin-bottom: 20px; /* Space below the signal */
+        }
+        .hold {
+            color: red; /* Red color for "Hold" */
+        }
+        .place-bet {
+            color: green; /* Green color for "Place Bet" */
         }
     </style>
 </head>
 <body>
-    <div class="signal">Hold</div>
-</body>
-</html>
+    <div class="signal" id="signal-status">Hold</div>
 
-        setInterval(fetchSignals, 30000); // Refresh signals every 30 seconds
+    <script>
+        function fetchSignals() {
+            // This is a placeholder for your actual fetching logic
+            // Here you would call your API or server to get the latest signal status
+            const signalData = {
+                // This should be replaced with the actual logic to get signal status
+                status: "hold" // or "placeBet"
+            };
+
+            // Update the signal status in the HTML based on the fetched data
+            const signalStatusDiv = document.getElementById("signal-status");
+            if (signalData.status === "hold") {
+                signalStatusDiv.innerText = "Hold";
+                signalStatusDiv.className = "signal hold";
+            } else if (signalData.status === "placeBet") {
+                signalStatusDiv.innerText = "Place Bet";
+                signalStatusDiv.className = "signal place-bet";
+            }
+        }
+
+        // Initial fetch
+        fetchSignals();
+
+        // Refresh signals every 30 seconds
+        setInterval(fetchSignals, 30000);
     </script>
 </body>
 </html>
