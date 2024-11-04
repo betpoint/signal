@@ -12,41 +12,37 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f2f2f2; /* Light gray background */
+            background-color: #f2f2f2;
         }
         .signal {
-            font-size: 3em; /* Larger text size */
-            font-weight: bold; /* Bold text */
-            margin-bottom: 20px; /* Space below the signal */
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
-        .hold {
-            color: red; /* Red color for "Hold" */
-        }
-        .place-bet {
-            color: green; /* Green color for "Place Bet" */
-        }
-        .invalid {
-            color: red; /* Red color for "Invalid Signal" */
-        }
+        .hold { color: red; }
+        .place-bet { color: green; }
+        .invalid { color: red; }
     </style>
 </head>
 <body>
     <div class="signal" id="signal-status">Loading...</div>
-
     <script>
-        function fetchSignals() {
-            const signalId = 'YOUR_SIGNAL_ID'; // Replace with the actual signal ID you want to fetch
+        function getSignalId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id'); // Get the ID from the URL
+        }
 
-            fetch(`http://localhost:3000/api/signal/${signalId}`)
+        function fetchSignals() {
+            const signalId = getSignalId(); // Get the signal ID
+            fetch(`http://your-api-url/api/signal/${signalId}`) // Update with your API URL
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Signal not found');
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
                     const signalStatusDiv = document.getElementById("signal-status");
-
                     if (data.valid && !data.not_valid) {
                         signalStatusDiv.innerText = "Place Bet";
                         signalStatusDiv.className = "signal place-bet";
@@ -70,5 +66,6 @@
     </script>
 </body>
 </html>
+
 
 
