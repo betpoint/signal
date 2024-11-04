@@ -34,39 +34,34 @@
     <div class="signal" id="signal-status">Loading...</div>
 
     <script>
-        const signalId = 'your_signal_id_here'; // Set this to the specific signal ID
+        function fetchSignals() {
+            const signalId = 'YOUR_SIGNAL_ID'; // Replace with the actual signal ID you want to fetch
 
-        async function fetchSignals() {
-            try {
-                const response = await fetch(`http://localhost:3000/api/signal/${signalId}`);
-                
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+            fetch(`http://localhost:3000/api/signal/${signalId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Signal not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const signalStatusDiv = document.getElementById("signal-status");
 
-                const signalData = await response.json();
-
-                // Update the signal status in the HTML based on the fetched data
-                const signalStatusDiv = document.getElementById("signal-status");
-                const signalLink = signalData.link; // Get the link from the API response
-
-                if (signalData.valid) {
-                    signalStatusDiv.innerText = "Place Bet";
-                    signalStatusDiv.className = "signal place-bet";
-                } else if (signalData.not_valid) {
-                    signalStatusDiv.innerText = "Invalid Signal";
-                    signalStatusDiv.className = "signal invalid";
-                } else {
-                    signalStatusDiv.innerText = "Hold";
-                    signalStatusDiv.className = "signal hold";
-                }
-
-                // Optionally, display the link
-                signalStatusDiv.innerHTML += `<br><a href="${signalLink}" target="_blank">View Signal</a>`;
-            } catch (error) {
-                console.error('Error fetching signal data:', error);
-                document.getElementById("signal-status").innerText = "Error fetching data";
-            }
+                    if (data.valid && !data.not_valid) {
+                        signalStatusDiv.innerText = "Place Bet";
+                        signalStatusDiv.className = "signal place-bet";
+                    } else if (!data.valid && data.not_valid) {
+                        signalStatusDiv.innerText = "Invalid Signal";
+                        signalStatusDiv.className = "signal invalid";
+                    } else {
+                        signalStatusDiv.innerText = "Hold";
+                        signalStatusDiv.className = "signal hold";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching signal:', error);
+                    document.getElementById("signal-status").innerText = "Error fetching signal";
+                });
         }
 
         // Automatically fetch signals every 10 seconds
@@ -75,4 +70,5 @@
     </script>
 </body>
 </html>
+
 
