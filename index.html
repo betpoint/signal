@@ -62,10 +62,15 @@
         const id = params.get('id');
 
         if (id) {
+            // Fetch the signal immediately
             fetchSignal(id);
+
+            // Set up an interval to fetch the signal every 10 seconds
+            setInterval(() => fetchSignal(id), 10000); // 10000 milliseconds = 10 seconds
         } else {
             document.getElementById("signal-status").innerText = "No ID provided.";
         }
     </script>
 </body>
 </html>
+
