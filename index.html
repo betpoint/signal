@@ -35,7 +35,8 @@
 
     <script>
         async function fetchSignal(id) {
-            const response = await fetch(`http://localhost:3000/api/signal/${id}`); // Change this to your deployed URL later
+            // Change this to your deployed URL later
+            const response = await fetch(`http://localhost:3000/api/signal/${id}`);
             
             if (response.ok) {
                 const signalData = await response.json();
@@ -73,4 +74,3 @@
     </script>
 </body>
 </html>
-
